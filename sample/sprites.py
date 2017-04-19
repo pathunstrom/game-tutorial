@@ -27,7 +27,11 @@ class Player(BaseSprite):
     group = "player_group"
     image_path = "player.png"
 
-    def update(self, *args):
+    def __init__(self, scene):
+        super().__init__(scene)
+        self.cooldown = 0
+
+    def update(self, time_delta, *args):
         super().update(*args)
         mouse_x, mouse_y = mouse.get_pos()
         diff_x = max(min(mouse_x - self.rect.centerx, 5), -5)
@@ -36,8 +40,10 @@ class Player(BaseSprite):
         self.rect.centery += diff_y
 
         mouse_buttons = mouse.get_pressed()
-        if mouse_buttons[0]:
+        if mouse_buttons[0] and self.cooldown <= 0:
             Bullet(self.scene, self.rect.midtop)
+            self.cooldown = 0.35
+        self.cooldown -= time_delta
 
 
 class Bullet(BaseSprite):
@@ -53,3 +59,17 @@ class Bullet(BaseSprite):
         self.rect.centery += -6
         if self.rect.bottom < self.scene.play_area.top:
             self.kill()
+
+
+class Enemy(BaseSprite):
+    group = "enemy_group"
+    image_path = "enemy.png"
+
+    def __init__(self, scene, x_position):
+        super().__init__(scene)
+        self.rect.midbottom = scene.play_area.midtop
+        self.rect.centerx = x_position
+
+    def update(self, *args):
+        super().update(*args)
+        self.rect.centery += 4

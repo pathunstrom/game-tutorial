@@ -84,4 +84,4 @@ We'll modify `Player.update`
         if mouse_buttons[0]:
             Bullet(self.scene, self.rect.midtop)
 
-That almost works.
+That _almost_ works.
