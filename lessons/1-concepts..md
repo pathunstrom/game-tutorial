@@ -22,3 +22,9 @@ objects.
 ## Time_delta
 
 The time difference between the last of a given action and the next.
+
+## Cartesian points
+
+Graphics tend to calculate the origin in the top left corner, instead of the
+bottom left corner. In other words: positive Y values go down, and negative Y
+values go up.

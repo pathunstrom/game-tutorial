@@ -24,7 +24,7 @@ We had to define `change` because of a standing bug in the engine.
 
     from ppb import GameEngine
     
-    from shooter.scenes import Game
+    from mygame.scenes import Game
     
     with GameEngine(Game, resolution=(400, 600)) as engine:
         engine.run()
