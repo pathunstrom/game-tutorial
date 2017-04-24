@@ -1,6 +1,6 @@
 # Guns too fast
 
-So we need to put a limiter on out Player.
+So we need to put a limiter on our Player.
 
     def __init__(self, scene):
         super().__init__(scene)

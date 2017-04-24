@@ -4,11 +4,14 @@ Now we need to make more than one enemy:
 
 ## scenes.py
 
+    from itertools import count
+    
+    
     def simple_enemies(time_step, x_val):
-        time = time_step
-        while True:
+        for value in count(1):
+            time = time_step * value
             yield time, x_val
-            time += time_step
+            
 
     class Game(BaseScene):
         def __init__(self, engine, **kwargs):

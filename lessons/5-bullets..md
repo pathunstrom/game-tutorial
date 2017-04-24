@@ -8,20 +8,20 @@ First, we're going to take all of the base code for `Player` and make it a
 `BaseSprite`.
 
     class BaseSprite(DirtySprite):
-    group = None
-    image_path = None
-    image = None
-
-    def __init__(self, scene):
-        cls = self.__class__
-        super().__init__(scene.groups[cls.group])
-        if cls.image is None:
-            cls.image = image.load(path.join(IMG_PATH, cls.image_path))
-        self.rect = self.image.get_rect()
-        self.scene = scene
-
-    def update(self, *args):
-        self.dirty = True
+        group = None
+        image_path = None
+        image = None
+    
+        def __init__(self, scene):
+            cls = type(self)
+            super().__init__(scene.groups[cls.group])
+            if cls.image is None:
+                cls.image = image.load(path.join(IMG_PATH, cls.image_path))
+            self.rect = self.image.get_rect()
+            self.scene = scene
+    
+        def update(self, *args):
+            self.dirty = True
     
     
     class Player(BaseSprite):
@@ -55,6 +55,10 @@ Then we make our new bullet.
 We check to see if the bullet is totally off screen then kill it to prevent
 keeping extra bullets in memory.
 
+`kill` comes from `pygame.sprite.Sprite` and deregisters a sprite from all of 
+the `pygame.sprite.Group` it is in. If you only store your `Sprite`s in
+`Group`s you only need one call to clear a given sprite.
+
 Remember that negative y is "up."
 
 ## scenes.py
@@ -70,7 +74,7 @@ It works! Now to make it fire when you click.
 
 ## sprites.py
 
-We'll modify `Player.update`
+We'll modify `Player.update`:
 
     def update(self, *args):
         super().update(*args)

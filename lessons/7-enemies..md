@@ -49,4 +49,3 @@ other.
             enemies = self.groups[sprites.Enemy.group]
             groupcollide(player, enemies, True, True)
             groupcollide(enemies, bullets, True, True)
-
