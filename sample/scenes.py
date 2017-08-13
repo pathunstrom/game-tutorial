@@ -1,7 +1,7 @@
 from ppb import BaseScene
 from pygame.sprite import groupcollide
 
-import sample.sprites as sprites
+import sprites as sprites
 
 
 def simple_enemies(time_step, x_val):
