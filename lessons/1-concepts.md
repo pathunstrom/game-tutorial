@@ -2,29 +2,33 @@
 
 Basic game dev concepts
 
-## Engine versus Framework
+## Main Loop  _move to setup_
 
-Fraught territory but basics: An engine is given your code and calls into it, a
-framework provides a library that your game calls into.
+_TBD_
 
-## Scenes
+## Engine versus Framework _introductory_
 
-Scene is a common term in game development and is the basic building block of a
-game. Any given scene represents a self contained unit of game play, such as a
-single level in Arkanoid.
+Fraught territory but basics: An engine is given your code and calls
+into it, a framework provides a library that your game calls into.
 
-## Sprite
+## Scenes _move to designing scene_
 
-Sprite, when working with Pygame, is an overloaded term that can mean both a
-pixel animation or a given game object. Mostly it will refer to the game 
-objects.
+Scene is a common term in game development and is the basic building
+block of a game. Any given scene represents a self contained unit of
+game play, such as a single level in Arkanoid.
 
-## Time_delta
+## Sprite _move to designing sprite_
+
+Sprite, when working with Pygame, is an overloaded term that can mean
+both a pixel animation or a given game object. Mostly it will refer to
+the game objects.
+
+## Time_delta _Expand? move to main loop discussion_
 
 The time difference between the last of a given action and the next.
 
-## Cartesian points
+## Cartesian points  _rewrite_
 
-Graphics tend to calculate the origin in the top left corner, instead of the
-bottom left corner. In other words: positive Y values go down, and negative Y
-values go up.
+Graphics tend to calculate the origin in the top left corner, instead
+of the bottom left corner. In other words: positive Y values go down,
+and negative Y values go up.
