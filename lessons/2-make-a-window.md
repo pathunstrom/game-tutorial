@@ -29,4 +29,6 @@ this:
         engine.run()
 
 Run this and you'll find you have a window. Under the hood this provides
-access to the hardware
+access to the hardware and a useful surface to draw to.
+
+Go ahead and exit your program and we'll move on.
