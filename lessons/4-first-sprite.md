@@ -47,3 +47,25 @@ computer screen is the top right, and y values ascend going down.
 
 Try experimenting by assigning a tuple to the sprite's rect.center:
 `self.rect.center = (200, 300)`
+
+What's a Sprite?
+
+Sprite, when working with Pygame, is an overloaded term that can mean
+both a pixel animation or a given game object. Mostly it will refer to
+the game objects.
+
+What if my player image is facing the wrong way?
+
+    from pygame.transform import rotate
+
+    image = image.load("player.png")
+    rotated_image = rotate(image, 180)
+
+What if I don't like how big it is?
+
+    from pygame.transform import smoothscale
+
+    image = image.load("player.png")
+    scaled_image = smoothscale(image,
+                               (image.get_width() * 0.5,
+                                image.get_height() * 0.5))

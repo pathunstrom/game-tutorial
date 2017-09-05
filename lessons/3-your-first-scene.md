@@ -42,3 +42,9 @@ until a scene is actually needed to load the various resources.
 Resolution is an entirely optional parameter as already demonstrated,
 but the goal is an old school style shooter that is taller than it is
 wide, so we want to flip the resolution for now.
+
+Why "Scene"?
+
+Scene is just a common word for a part of a game. In general games use
+language similar to film: We have scenes in which actors act and a
+camera that provides a view into the gameplay.
