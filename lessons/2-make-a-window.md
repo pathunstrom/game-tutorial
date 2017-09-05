@@ -1,8 +1,8 @@
 # My First GUI
 
 The kinds of games you make with **PPB** are going to have graphical
-user interfaces. GUIs require a different way of thinking from CLI
-programs that are much more common in Python.
+user interfaces. GUIs require a different way of thinking from command
+line interface programs that are much more common in Python.
 
 A key thing you need to know is it can't stop running to wait for user
 input. To that regard, you're going to need a main loop.
