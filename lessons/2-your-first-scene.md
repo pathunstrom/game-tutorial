@@ -1,42 +1,50 @@
 # Setting up your first scene
 
-## scenes.py
+We just used PPB's base scene, but we're going to need to modify it in
+order to make our game. So let's subclass it.
 
-    from ppb import BaseScene
+In `main.py` let's define our first scene: `Game`.
+
+    from ppb import GameEngine, BaseScene
     
     class Game(BaseScene):
     
-        def __init__(self, engine, **kwargs):
+        def __init__(self, engine, background_color=(0, 0, 0), **kwargs):
             super().__init__(engine=engine, 
-                             background_color=(0, 0, 0),
+                             background_color=background_color,
                              **kwargs)
-        
-        def change(self):
-            return not self.running, {}
 
-BaseScene provides some basic tools that you need for the rest of the project.
-Most importantly, it's already set up with `groups` which will store all the
-sprites we build later.
+For those who have never done additive color, the background_color is a
+tuple of `(red, green, blue)`. If you've ever used hex-colors on the web
+you've used this scheme before. The values are between 0 and 255, making
+our background a 24 bit color pallet.
 
-We had to define `change` because of a standing bug in the engine.
+Depending on what sprite images you brought with you, you'll want to
+pick a background color that contrasts well. (Don't worry, you can
+change this later.)
 
-## main.py
-
-    from ppb import GameEngine
+Now, let's hook our new scene into the engine, and pick our display
+resolution.
     
-    from mygame.scenes import Game
-    
-    with GameEngine(Game, resolution=(400, 600)) as engine:
-        engine.run()
+    def main():
+        with GameEngine(Game, resolution=(400, 600)) as engine:
+            engine.run()
 
-That third line of code actually runs 19 lines of boilerplate, setting up your
-hardware and prepping basic state.
+    if __name__ == "__main__":
+        main()
 
-`run` is where the real magic happens. A complex game loop ready to go.
+Why do we pass the game class and not an instance?
 
-## shell
+PPB is designed to load game resources as lazily as possible. Instead
+of loading every resource at the beginning of the game, we'll wait
+until a scene is actually needed to load the various resources.
 
-    python main.py
+Resolution is an entirely optional parameter as already demonstrated,
+but the goal is an old school style shooter that is taller than it is
+wide, so we want to flip the resolution for now.
 
-Run your code! Right now, it's just a blank screen. Hit the close button and
-see behavior the engine gives you.
+Why "Scene"?
+
+Scene is just a common word for a part of a game. In general games use
+language similar to film: We have scenes in which actors act and a
+camera that provides a view into the gameplay.

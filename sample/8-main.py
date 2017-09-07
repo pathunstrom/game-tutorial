@@ -9,9 +9,6 @@ from pygame.sprite import DirtySprite
 from pygame.sprite import groupcollide
 
 
-ROOT_DIR = path.dirname(__file__)
-
-
 class Spawner(object):
     def __init__(self, scene, generator, enemy_class):
         self.scene = scene
@@ -36,45 +33,26 @@ class Spawner(object):
             self.running = False
 
 
-class BaseGameObject(DirtySprite):
-    group = None
-    image_path = None
-    image = None
 
-    def __init__(self, scene, position=(0, 0)):
-        cls = self.__class__
-        cls.group = cls.__name__
-        super().__init__(scene.groups[cls.group], scene.groups["render"])
-        self.scene = scene
-        cls.image = image.load(path.join(ROOT_DIR, cls.image_path))
-        self.rect = cls.image.get_rect()
-        self.rect.center = position
-        self.last_position = position
-
-    def update(self, time_delta):
-        self.simulate(time_delta)
-        if self.rect.center != self.last_position:
-            self.dirty = True
-            self.last_position = self.rect.center
-
-    def simulate(self, time_delta):
-        pass
-
-
-class Player(BaseGameObject):
-    image_path = "player.png"
+class Player(DirtySprite):
 
     def __init__(self, scene):
-        super().__init__(scene)
-        self.bullet_limiter = 0.50
+        super().__init__(scene.groups["player"])
+        p_image = image.load(path.join(path.dirname(__file__), "player.png"))
+        self.image = p_image
+        self.rect = self.image.get_rect()
+        self.scene = scene
+        self.bullet_limiter = 0.25
         self.bullet_delay = 0
 
-    def simulate(self, time_delta):
+    def update(self, time_delta):
         mouse_x, mouse_y = mouse.get_pos()
         diff_x = max(min(mouse_x - self.rect.centerx, 5), -5)
         diff_y = max(min(mouse_y - self.rect.centery, 5), -5)
         self.rect.centerx += diff_x
         self.rect.centery += diff_y
+        if diff_x or diff_y:
+            self.dirty = True
 
         pressed = mouse.get_pressed()
         if pressed[0] and (self.bullet_delay >= self.bullet_limiter):
@@ -83,21 +61,34 @@ class Player(BaseGameObject):
         self.bullet_delay += time_delta
 
 
-class Bullet(BaseGameObject):
-    image_path = "bullet.png"
+class Bullet(DirtySprite):
 
-    def simulate(self, time_delta):
+    def __init__(self, scene, position):
+        super().__init__(scene.groups["bullets"])
+        b_image = image.load(path.join(path.dirname(__file__), "bullet.png"))
+        self.image = b_image
+        self.rect = self.image.get_rect()
+        self.rect.midbottom = position
+        self.scene = scene
+
+    def update(self, time_delta):
         self.rect.centery += -10
+        self.dirty = True
 
 
-class Enemy(BaseGameObject):
-    image_path = "enemy.png"
-
+class Enemy(DirtySprite):
     def __init__(self, scene, x_position):
-        super().__init__(scene, (x_position, 0))
+        super().__init__(scene.groups["enemies"])
+        p_image = image.load(path.join(path.dirname(__file__), "enemy.png"))
+        self.image = p_image
+        self.rect = self.image.get_rect()
+        self.rect.bottom = 0
+        self.rect.centerx = x_position
+        self.scene = scene
 
-    def simulate(self, time_delta):
+    def update(self, time_delta):
         self.rect.centery += 3
+        self.dirty = True
 
 
 class Game(BaseScene):
@@ -115,9 +106,9 @@ class Game(BaseScene):
 
         self.spawner.spawn(time_delta)
 
-        player = self.groups[Player.group]
-        bullets = self.groups[Bullet.group]
-        enemies = self.groups[Enemy.group]
+        player = self.groups["player"]
+        bullets = self.groups["bullets"]
+        enemies = self.groups["enemies"]
         groupcollide(player, enemies, True, True)
         groupcollide(enemies, bullets, True, True)
 

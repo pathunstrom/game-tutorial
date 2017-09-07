@@ -1,91 +1,92 @@
-# Bang Bang
+# Bullets
 
-Next, let's add bullets to the game.
+Now we can move, but what good is a shooter if you can't shoot
+something? Of course, it's hard to shoot something if you don't have
+something to shoot.
 
-## sprites.py
+So let's add a projectile!
 
-First, we're going to take all of the base code for `Player` and make it a 
-`BaseSprite`.
+So, first, let's get our projectile image. Same as last time, if you
+didn't bring one, the repo has one available. `bullet.png` is ready for
+use.
 
-    class BaseSprite(DirtySprite):
-        group = None
-        image_path = None
-        image = None
-    
-        def __init__(self, scene):
-            cls = type(self)
-            super().__init__(scene.groups[cls.group])
-            if cls.image is None:
-                cls.image = image.load(path.join(IMG_PATH, cls.image_path))
+Let's copy our Player object's basic setup:
+
+    class Bullet(DirtySprite):
+
+    def __init__(self, scene):
+        super().__init__(scene.groups["bullets"])
+        b_image = image.load(path.join(path.dirname(__file__), "bullet.png"))
+        self.image = b_image
+        self.rect = self.image.get_rect()
+        self.rect.bottom = 600
+        self.scene = scene
+
+    def update(self, time_delta):
+        self.rect.centery += -10
+        self.dirty = True
+
+Next, let's add bullets to the Game.
+
+    class Game(BaseScene):
+
+        def __init__(self, engine, background_color=(90, 55, 100), **kwargs):
+            super().__init__(engine=engine,
+                             background_color=background_color,
+                             **kwargs)
+            Player(self)
+            Bullet(self)
+
+Try running this and see what happens.
+
+Now, we don't want to instantiate these when the game starts, so let's
+make a few changes to Bullet and Player.
+
+    class Bullet(DirtySprite):
+
+        def __init__(self, scene, position):
+            super().__init__(scene.groups["bullets"])
+            b_image = image.load(path.join(path.dirname(__file__), "bullet.png"))
+            self.image = b_image
             self.rect = self.image.get_rect()
+            self.rect.midbottom = position  # Modify this
             self.scene = scene
-    
-        def update(self, *args):
-            self.dirty = True
-    
-    
-    class Player(BaseSprite):
-        group = "player_group"
-        image_path = "player.png"
 
-        def update(self, *args):
-            super().update(*args)
-            mouse_x, mouse_y = mouse.get_pos()
-            diff_x = max(min(mouse_x - self.rect.centerx, 5), -5)
-            diff_y = max(min(mouse_y - self.rect.centery, 5), -5)
-            self.rect.centerx += diff_x
-            self.rect.centery += diff_y
+So here we need to change how we instantiate Bullet, by telling where
+to spawn.
 
-Then we make our new bullet.
+    class Player(DirtySprite):
 
-    class Bullet(BaseSprite):
-        group = "bullet_group"
-        image_path = "bullet.png"
-        
-        def __init__(self, scene, tail_position):
-            super().__init__(scene)
-            self.rect.midbottom = tail_position
-        
-        def update(self, *args):
-            super().update(*args)
-            self.rect.centery += -6
-            if self.rect.bottom < self.scene.play_area:
-                self.kill()
+        def __init__(self, scene):
+            . . .
+            self.scene = scene
+            self.bullet_limiter = 0.25
+            self.bullet_delay = 0
 
-We check to see if the bullet is totally off screen then kill it to prevent
-keeping extra bullets in memory.
+        def update(self, time_delta):
+            . . .
+            if diff_x or diff_y:
+                self.dirty = True
 
-`kill` comes from `pygame.sprite.Sprite` and deregisters a sprite from all of 
-the `pygame.sprite.Group` it is in. If you only store your `Sprite`s in
-`Group`s you only need one call to clear a given sprite.
+            pressed = mouse.get_pressed()
+            if pressed[0] and self.bullet_delay > self.bullet_limiter:
+                Bullet(self.scene, self.rect.midtop)
+                self.bullet_delay = 0
+            self.bullet_delay += time_delta
 
-Remember that negative y is "up."
+There's only one more thing we need to do. Because BaseScene uses a
+defaultdict to guarantee you can always access the containers you need.
+Unfortunately, that means if you try to access it during updating, it
+changes the size of the dictionary. So let's trick it into making the
+group exist!
 
-## scenes.py
+    class Game(BaseScene):
 
-Let's test it by spawning it in the bottom of the screen:
+        def __init__(self, engine, background_color=(90, 55, 100), **kwargs):
+            super().__init__(engine=engine,
+                             background_color=background_color,
+                             **kwargs)
+            Player(self)
+            Bullet(self, (0, 0)).kill()
 
-    def __init__(engine, **kwargs):
-        . . .
-        sprites.Player(self)
-        sprites.Bullet(self, self.play_area.midbottom)
-
-It works! Now to make it fire when you click.
-
-## sprites.py
-
-We'll modify `Player.update`:
-
-    def update(self, *args):
-        super().update(*args)
-        mouse_x, mouse_y = mouse.get_pos()
-        diff_x = max(min(mouse_x - self.rect.centerx, 5), -5)
-        diff_y = max(min(mouse_y - self.rect.centery, 5), -5)
-        self.rect.centerx += diff_x
-        self.rect.centery += diff_y
-        
-        mouse_buttons = mouse.get_pressed()
-        if mouse_buttons[0]:
-            Bullet(self.scene, self.rect.midtop)
-
-That _almost_ works.
+And now you should be able to see your new bullet in action!
