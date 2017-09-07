@@ -1,0 +1,8 @@
+K_a
+K_w
+K_s
+K_d
+K_UP
+K_DOWN
+K_LEFT
+K_RIGHT

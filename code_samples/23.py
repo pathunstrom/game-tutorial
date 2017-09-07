@@ -1,0 +1,1 @@
+self.spawner = Spawner(self, file_spawner('spawn.csv'), Enemy)
