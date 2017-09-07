@@ -43,9 +43,9 @@ Let's make some collisions!
 
         def simulate(self, time_delta):
             super().simulate(time_delta)
-            player = self.groups[sprites.Player.group]
-            bullets = self.groups[sprites.Bullet.group]
-            enemies = self.groups[sprites.Enemy.group]
+            player = self.groups["player"]
+            bullets = self.groups["bullets"]
+            enemies = self.groups["enemy"]
             groupcollide(player, enemies, True, True)
             groupcollide(enemies, bullets, True, True)
 
