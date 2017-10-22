@@ -29,11 +29,11 @@ Then, we need a game object. Above our `Game` class, let's make our
 
     class Game(BaseScene):
 
-    def __init__(self, engine, background_color=(90, 55, 100), **kwargs):
-        super().__init__(engine=engine,
-                         background_color=background_color,
-                         **kwargs)
-        Player(self)
+        def __init__(self, engine, background_color=(90, 55, 100), **kwargs):
+            super().__init__(engine=engine,
+                             background_color=background_color,
+                             **kwargs)
+            Player(self)
 
 Now run again.
 
