@@ -27,7 +27,7 @@ So let's make a spawner!
 
         def prime(self):
             try:
-                self.next_spawn, self.next_position = next(self.generator)
+                self.next_time, self.next_position = next(self.generator)
             except StopIteration:
                 self.running = False
 
