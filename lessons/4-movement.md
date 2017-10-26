@@ -46,7 +46,7 @@ So we're limiting our speed to five pixels per update, go ahead and
 change those and see if you like your movement different ways.
 
 If you'd like to try a different method of movement, pygame has a key
-module with a get_pressed module that returns an array. It also has
+module with a get_pressed function that returns an array. It also has
 a host of key constants that look like:
 
     K_a

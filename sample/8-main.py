@@ -33,7 +33,6 @@ class Spawner(object):
             self.running = False
 
 
-
 class Player(DirtySprite):
 
     def __init__(self, scene):
