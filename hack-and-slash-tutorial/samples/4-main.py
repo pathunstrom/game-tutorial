@@ -1,9 +1,11 @@
+from math import hypot
 from os import path
 
 from ppb import BaseScene
 from ppb import GameEngine
 from ppb import Vector
 from pygame import image
+from pygame import mouse
 from pygame.sprite import DirtySprite
 
 
@@ -26,13 +28,17 @@ class Player(DirtySprite):
         self.scene = scene
         self.target = target
         self.speed = 60
+        self.reach = hypot(0.5 * self.image.get_height(), 0.5 * self.image.get_width())
 
     def update(self, time_delta):
         if self.target is not None:
             move_path = self.target - self.position
-            self.position += move_path.scale(self.speed * time_delta)
-            self.rect.center = tuple(int(x) for x in self.position)
-            self.dirty = True
+            if move_path.length < self.reach:
+                self.target = None
+            else:
+                self.position += move_path.scale(self.speed * time_delta)
+                self.rect.center = tuple(int(x) for x in self.position)
+                self.dirty = True
 
 
 def main():
