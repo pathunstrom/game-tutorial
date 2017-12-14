@@ -66,18 +66,6 @@ class ClosedChest(DirtySprite, TargetABC):
         super().interact(player)
 
 
-class OpenChest(DirtySprite):
-    def __init__(self, scene, position: Vector):
-        super().__init__(scene.groups["terrain"])
-        self.image = image.load(path.join(path.dirname(__file__),
-                                          "chest_open.png"))
-        self.rect = self.image.get_rect()
-        self.rect.center = tuple(position)
-        self.position = position
-        self.dirty = 1
-        self.scene = scene
-
-
 class Player(DirtySprite):
 
     def __init__(self, scene, target: TargetABC=None):
