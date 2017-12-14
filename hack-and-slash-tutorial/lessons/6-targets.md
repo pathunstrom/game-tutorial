@@ -29,12 +29,6 @@ The only interesting thing here is that we're passing the chest its
 location, so we can spawn them anywhere in game we want, otherwise this
 is exactly like our player.
 
-Now, instead of an update (Because chests don't move) we're going to
-give the sprite a method for interacting with it.
-
-        def interact(self, actor):
-            logging.debug("Chest opened!")
-
 This is just a stub for us to test, so let's wire it up and see what
 happens.
 
@@ -45,7 +39,7 @@ happens.
             player = Player(self, chest)
 
 We fail, because a `ClosedChest` doesn't look like a `Vector`, so we
-need  to change how our `Player` interacts with its targets.
+need  to change how our `Player` interacts with its `targets`.
 
     class Player(DirtySprite):
         def update(self, time_delta):
@@ -63,7 +57,7 @@ interacts. Also, if any of you clicked anywhere you'll get an error.
 
 So, two problems, let's solve the control problem first:
 
-A target now needs a `position`, but the controller only sets a
+A `target` now needs a `position`, but the controller only sets a
 `Vector`.
 
 First let's make a stub class:
