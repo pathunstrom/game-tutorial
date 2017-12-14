@@ -24,7 +24,7 @@ class Player(DirtySprite):
 
 
 def main():
-    with GameEngine(Game, resolution=(400, 600)) as engine:
+    with GameEngine(Game, resolution=(800, 800)) as engine:
         engine.run()
 
 if __name__ == "__main__":

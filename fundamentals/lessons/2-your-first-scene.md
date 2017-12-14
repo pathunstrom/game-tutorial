@@ -27,7 +27,7 @@ Now, let's hook our new scene into the engine, and pick our display
 resolution.
     
     def main():
-        with GameEngine(Game, resolution=(400, 600)) as engine:
+        with GameEngine(Game, resolution=(800, 800)) as engine:
             engine.run()
 
     if __name__ == "__main__":
