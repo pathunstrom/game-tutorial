@@ -39,4 +39,3 @@ our update loop. So we just need to force that group to exist:
             player = Player(self, chest)
             self.groups["terrain"].empty()
             . . .
-
