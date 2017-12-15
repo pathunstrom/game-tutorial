@@ -23,7 +23,8 @@ Thankfully, we don't need to worry about developing and maintaining our
 main loop, since PPB comes with one. In a file called `main.py` write
 this:
 
-    from ppb import GameEngine, BaseScene
+    from ppb import BaseScene
+    from ppb import GameEngine
 
     with GameEngine(BaseScene) as engine:
         engine.run()

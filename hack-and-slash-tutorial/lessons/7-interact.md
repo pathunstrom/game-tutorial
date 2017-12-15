@@ -3,7 +3,6 @@ Now, let's add an interface so that our `Player` can interact with
 
     from abc import ABC
     from abc import abstractmethod
-    import logging
 
 Now, near the top of your file, let's define TargetABC:
 

@@ -1,6 +1,7 @@
 Now, let's get something we can hit!
 
 Imports:
+
     import random
 
 Our new class:
@@ -14,7 +15,7 @@ Our new class:
             self.rect = self.image.get_rect()
             self.rect.center = tuple(position)
             self._position = position
-            self.direction = Vector(0, 1).rotate(random.randint(0, 359))
+            self.direction = Vector(0, -1).rotate(random.randint(0, 359))
             self.dirty = 1
             self.scene = scene
             self.speed = 30
@@ -39,7 +40,7 @@ Our new class:
             else:
                 self.direction = self.direction.rotate(random.randint(-2, 2))
                 self._position += self.direction.scale(self.speed * time_delta * .5)
-            self.rect.center = tuple(position)
+            self.rect.center = tuple(self._position)
             self.dirty = 1
 
 We're leaving our first if statement open for right now because we need

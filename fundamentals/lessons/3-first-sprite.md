@@ -2,7 +2,7 @@
 
 Now let's draw something. You should have a sprite for your player, but
 if not the resource folder in this repo includes a player.png sourced
-from kenney.nl/assets.
+from **kenney.nl/assets**.
 
 Using that, we're going to draw our player.
 
