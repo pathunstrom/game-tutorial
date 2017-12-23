@@ -17,7 +17,7 @@ interfaces later if we want.
         def __init__(self, actor):
             self.actor = actor
 
-        def respond(self, mouse):
+        def respond(self):
             mouse_buttons = mouse.get_pressed()
             if mouse_buttons[0]:
                 mouse_position = mouse.get_pos()
