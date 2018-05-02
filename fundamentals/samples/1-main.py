@@ -1,4 +1,3 @@
-from ppb import GameEngine, BaseScene
+import ppb
 
-with GameEngine(BaseScene) as engine:
-    engine.run()
+ppb.run()
