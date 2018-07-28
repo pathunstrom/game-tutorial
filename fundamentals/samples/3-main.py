@@ -3,8 +3,7 @@ from ppb import BaseSprite
 
 
 class Player(BaseSprite):
-    def on_update(self, time_delta):
-        self.position += 0, -1
+    pass
 
 
 def main():
