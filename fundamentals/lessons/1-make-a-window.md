@@ -23,11 +23,9 @@ Thankfully, we don't need to worry about developing and maintaining our
 main loop, since PPB comes with one. In a file called `main.py` write
 this:
 
-    from ppb import BaseScene
-    from ppb import GameEngine
+    import ppb
 
-    with GameEngine(BaseScene) as engine:
-        engine.run()
+    ppb.run()
 
 Run this and you'll find you have a window. Under the hood this provides
 access to the hardware and a useful surface to draw to.
